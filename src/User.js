@@ -3,20 +3,28 @@ import MaterialTable from 'material-table';
 import axios from 'axios'
 import PhotoCameraRoundedIcon from '@material-ui/icons/PhotoCameraRounded';
 import FlipCameraIosIcon from '@material-ui/icons/FlipCameraIos';
+import { CallMerge } from "@material-ui/icons";
+
 
 class MatTable extends Component {
   constructor(props) {
     super(props)
     this.state = {
       columns: [
-        { title: 'Name', field: 'first' },
-        { title: 'Surname', field: 'last', initialEditValue: 'initial edit value' },
-        { title: 'Title', field: 'title'}],
+        { title: 'Title', field: 'title'},
+        { title: 'First Name', field: 'first' },
+        { title: 'Last Name', field: 'last', initialEditValue: 'initial edit value' },
+        { title: 'Age', field: 'age', type: 'numerical'},
+        { title: 'Location', field: 'state'},
+      ],
       data: [[
         {
           first: "",
           last: "",
           title: "",
+          age: 0,
+          large: "",
+          state: ""
         }]]
     };
   }
@@ -27,7 +35,13 @@ class MatTable extends Component {
       console.log(response.data.results)
       var dataRows = [];
       response.data.results.forEach((item, i) => {
-        dataRows.push((item.name));
+        let myData = {
+          ...item.name,
+          ...item.dob,
+          ...item.picture,
+          ...item.location
+        }
+        dataRows.push((myData));
       })
       return dataRows
     }).then(dataRows => {
@@ -44,16 +58,8 @@ class MatTable extends Component {
   
   
   render() {
-    console.log(typeof this.state.data)
-    // const dataRows = [];
-    // if (this.state.data.length > 0) {
-    //   console.log("JSON Parse: ", this.state.data);
+    console.log(this.state.data)
 
-    //   };
-      
-    // this.setState({
-    //   data: dataRows
-    // })
     return (
       <MaterialTable align="center"
         title="Employee Search (editable)"
@@ -62,15 +68,15 @@ class MatTable extends Component {
         detailPanel={[ 
         {
       icon: PhotoCameraRoundedIcon,
-      openIcon: 'favorite',
-      closeIcon: FlipCameraIosIcon,
+      openIcon: FlipCameraIosIcon,
       tooltip: 'Show Picture',
-      render: rowData => {
+      render: (rowData) => {
+        console.log("Row data: ", rowData)
         return (
           <img
             height="315"
-            src="https://randomuser.me/api/portraits/women/28.jpg"
-            alt="profile picture"
+            src={rowData.large}
+            alt="profile picture2"
           />
         )
       },
