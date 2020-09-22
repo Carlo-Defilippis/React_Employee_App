@@ -7,7 +7,7 @@ import "./App.css";
 import User from "./User";
 
 function App() {
-  document.title = "Wikipedia Searcher";
+  document.title = "Employee Searcher";
   return (
     <Router>
       <div>
