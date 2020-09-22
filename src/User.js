@@ -21,7 +21,7 @@ class MatTable extends Component {
 
 
   componentDidMount() {
-    axios.get('https://randomuser.me/api/?results=100').then(response => {
+    axios.get('https://randomuser.me/api/?results=100&nat=us').then(response => {
       this.setState({
         data: response.data.results
       })
@@ -29,32 +29,29 @@ class MatTable extends Component {
       .catch(function (error) {
         console.log(error);
       })
-      this.setState({
-        first: this.state.data.map(e => (
-        (e.name)
-        )),
-        last: this.state.data.map(e => (
-          (e.name)
-        )),
-        title: this.state.data.map(e => (
-          (e.name)
-        ))
-      })
   }
 
 
   
   render() {
-    if (this.state.data.length > 0) {
+    const dataRows = [];
+    if (this.state.data.length === 100) {
       console.log("JSON Parse: ", this.state.data);
+      
+      this.state.data.forEach((item, i) => {
+        dataRows.push((item.name));
+      })
+      console.log("DataRows: ",dataRows[0])
+
       };
-    
+      
 
     return (
+      
       <MaterialTable
         title="Employee Search (editable)"
         columns={this.state.columns}
-        data={this.state.data}
+        data= {dataRows}
         editable={{
           onRowAdd: (newData) =>
             new Promise((resolve) => {
