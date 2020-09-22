@@ -70,6 +70,7 @@ class MatTable extends Component {
           <img
             height="315"
             src="https://randomuser.me/api/portraits/women/28.jpg"
+            alt="profile picture"
           />
         )
       },

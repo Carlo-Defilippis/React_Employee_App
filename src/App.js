@@ -14,6 +14,7 @@ function App() {
         <Navbar />
         <Wrapper>
           <Route exact path="/" component={User} />
+          <Route exact path="/React_Employee_App" component={User} />
         </Wrapper>
         <Footer />
       </div>
