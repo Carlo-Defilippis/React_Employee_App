@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Search from "./User";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Wrapper from "./components/Wrapper";
 import "./App.css";
+import User from "./User";
 
 function App() {
   document.title = "Wikipedia Searcher";
@@ -13,7 +13,7 @@ function App() {
       <div>
         <Navbar />
         <Wrapper>
-          <Route exact path="/" component={Search} />
+          <Route exact path="/" component={User} />
         </Wrapper>
         <Footer />
       </div>

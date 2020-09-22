@@ -1,87 +1,124 @@
-import React from 'react';
+import React, { Component, setState, useState } from "react";
 import MaterialTable from 'material-table';
-import API from './utils/API'
+import axios from 'axios'
 
+class MatTable extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      columns: [
+        { title: 'Name', field: 'name' },
+        { title: 'Surname', field: 'surname', initialEditValue: 'initial edit value' },
+        { title: 'Birth Year', field: 'birthYear', type: 'numeric' }],
+      data: [[
+        { 
+          name: this.state.data.map(e => (
+            (e.name.first)
+            )), 
+          surname: this.state.data.map(e => (
+            (e.name.last)
+            )),
+          birthYear: this.state.data.map(e => (
+            (e.dob.age)
+            )),
+        }]]
+    };
+  }
 
-console.log("This is the API const imported from API in the User.js:",API().then(isAuthenticated => console.log(isAuthenticated)));
+  
+  componentDidMount() {
+    axios.get('https://randomuser.me/api/?results=100').then(response => {
+      this.setState({
+        data: response.data.results
+      })
+    })
+    .catch(function(error) {
+      console.log(error);
+    })
+  }
 
-export default function MaterialTableUsers() {
-  const [state, setState] = React.useState({
-    columns: [
-      { title: 'Name', field: 'name' },
-      { title: 'Surname', field: 'surname' },
-      { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-      {
-        title: 'Birth Place',
-        field: 'birthCity',
-        lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-      },
-    ],
-    data: [
-      { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-      {
-        name: 'Zerya Betül',
-        surname: 'Baran',
-        birthYear: 2017,
-        birthCity: 34,
-      },
-    ],
-  });
+  
 
-  return (
-    <MaterialTable
-      title="Editable Example"
-      columns={state.columns}
-      data={state.data}
-      editable={{
-        onRowAdd: (newData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              setState((prevState) => {
-                const data = [...prevState.data];
-                data.push(newData);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              if (oldData) {
+  render() {
+    if (this.state.data.length > 0) {
+      console.log("JSON Parse: ", this.state.data[0].gender);
+    }
+    console.log("Test", this.state.data)
+    
+    return (
+      <MaterialTable
+        title="Employee Search (editable)"
+        columns={this.state.columns}
+        data = {this.state.data}
+        editable={{
+          onRowAdd: (newData) =>
+            new Promise((resolve) => {
+              setTimeout(() => {
+                resolve();
                 setState((prevState) => {
                   const data = [...prevState.data];
-                  data[data.indexOf(oldData)] = newData;
+                  data.push(newData);
                   return { ...prevState, data };
                 });
-              }
-            }, 600);
-          }),
-        onRowDelete: (oldData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              setState((prevState) => {
-                const data = [...prevState.data];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
-      }}
-    />
-  );
+              }, 600);
+            }),
+          onRowUpdate: (newData, oldData) =>
+            new Promise((resolve) => {
+              setTimeout(() => {
+                resolve();
+                if (oldData) {
+                  setState((prevState) => {
+                    const data = [...prevState.data];
+                    data[data.indexOf(oldData)] = newData;
+                    return { ...prevState, data };
+                  });
+                }
+              }, 600);
+            }),
+          onRowDelete: (oldData) =>
+            new Promise((resolve) => {
+              setTimeout(() => {
+                resolve();
+                setState((prevState) => {
+                  const data = [...prevState.data];
+                  data.splice(data.indexOf(oldData), 1);
+                  return { ...prevState, data };
+                });
+              }, 600);
+            }),
+        }}
+      />
+    );
+  }
 }
 
 
 
+export default MatTable;
+
+
+
+// var myResults = []
+//   api.getEmployees()
+//     .then(res => {
+//       if (res === 0) {
+//         throw new Error("No results found.");
+//       }
+//       if (res === "error") {
+//         throw new Error(res.data.message);
+//       }
+//       return myResults.push(res.data.results)
+//     })
+//     .catch(err => err);
+
+// console.log("My Final: ", myResults)
+// MaterialTableUsers(myResults)
 
 // import React from "react";
 
 // // Component to represent a single User 'Card' (note: this is a class component so can use state)
 // class User extends React.Component {
-  
+
 //   // Define what happens when this componet gets drawn on the UI
 //   render() {
 //     return (
@@ -97,4 +134,3 @@ export default function MaterialTableUsers() {
 
 // // Allow this to be imported by another JS file
 // export default User;
-  
