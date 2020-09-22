@@ -62,7 +62,7 @@ class MatTable extends Component {
 
     return (
       <MaterialTable align="center"
-        title="Employee Search (editable)"
+        title="Employee Search"
         columns={this.state.columns}
         data= {this.state.data}
         detailPanel={[ 
@@ -76,20 +76,12 @@ class MatTable extends Component {
           <img
             height="315"
             src={rowData.large}
-            alt="profile picture2"
+            alt="profile"
           />
         )
       },
     },
   ]}
-      //   {rowData => {
-      //   return (
-      //     <img
-      //       height="315"
-      //       src="https://randomuser.me/api/portraits/women/28.jpg"
-      //     />
-      //   )
-      // }}
     />
     );
 

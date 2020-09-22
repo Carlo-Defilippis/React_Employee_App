@@ -10,10 +10,10 @@ function Navbar() {
       <div className="jumbotron jumbotron-fluid">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            Employee Searcher
+            Home
           </Link>
-          <h1 className="display-4">Fluid jumbotron</h1>
-          <p className="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+          <h1 className="display-4">React Employee Searcher</h1>
+          <p className="lead">Click the collumns to sort, click the camera icon so see the employees picture, and type any search string in the search box.</p>
         </div>
       </div>
     </div>

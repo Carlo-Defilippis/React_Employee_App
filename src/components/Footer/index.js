@@ -4,7 +4,7 @@ import "./style.css";
 function Footer() {
   return (
     <footer className="footer">
-      <span>Employee Searcher</span>
+      <span align="center">Employee Searcher: Made with ❤️ by Carlo DeFilippis</span>
     </footer>
   );
 }
