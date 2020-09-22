@@ -1,6 +1,8 @@
 import React, { Component, setState, useState } from "react";
 import MaterialTable from 'material-table';
 import axios from 'axios'
+import PhotoCameraRoundedIcon from '@material-ui/icons/PhotoCameraRounded';
+import FlipCameraIosIcon from '@material-ui/icons/FlipCameraIos';
 
 class MatTable extends Component {
   constructor(props) {
@@ -22,8 +24,16 @@ class MatTable extends Component {
 
   componentDidMount() {
     axios.get('https://randomuser.me/api/?results=100&nat=us').then(response => {
+      console.log(response.data.results)
+      var dataRows = [];
+      response.data.results.forEach((item, i) => {
+        dataRows.push((item.name));
+      })
+      return dataRows
+    }).then(dataRows => {
+      console.log(dataRows)
       this.setState({
-        data: response.data.results
+        data: dataRows
       })
     })
       .catch(function (error) {
@@ -31,65 +41,49 @@ class MatTable extends Component {
       })
   }
 
-
+  
   
   render() {
-    const dataRows = [];
-    if (this.state.data.length === 100) {
-      console.log("JSON Parse: ", this.state.data);
-      
-      this.state.data.forEach((item, i) => {
-        dataRows.push((item.name));
-      })
-      console.log("DataRows: ",dataRows[0])
+    console.log(typeof this.state.data)
+    // const dataRows = [];
+    // if (this.state.data.length > 0) {
+    //   console.log("JSON Parse: ", this.state.data);
 
-      };
+    //   };
       
-
+    // this.setState({
+    //   data: dataRows
+    // })
     return (
-      
-      <MaterialTable
+      <MaterialTable align="center"
         title="Employee Search (editable)"
         columns={this.state.columns}
-        data= {dataRows}
-        editable={{
-          onRowAdd: (newData) =>
-            new Promise((resolve) => {
-              setTimeout(() => {
-                resolve();
-                setState((prevState) => {
-                  const data = [...prevState.data];
-                  data.push(newData);
-                  return { ...prevState, data };
-                });
-              }, 600);
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve) => {
-              setTimeout(() => {
-                resolve();
-                if (oldData) {
-                  setState((prevState) => {
-                    const data = [...prevState.data];
-                    data[data.indexOf(oldData)] = newData;
-                    return { ...prevState, data };
-                  });
-                }
-              }, 600);
-            }),
-          onRowDelete: (oldData) =>
-            new Promise((resolve) => {
-              setTimeout(() => {
-                resolve();
-                setState((prevState) => {
-                  const data = [...prevState.data];
-                  data.splice(data.indexOf(oldData), 1);
-                  return { ...prevState, data };
-                });
-              }, 600);
-            }),
-        }}
-      />
+        data= {this.state.data}
+        detailPanel={[ 
+        {
+      icon: PhotoCameraRoundedIcon,
+      openIcon: 'favorite',
+      closeIcon: FlipCameraIosIcon,
+      tooltip: 'Show Picture',
+      render: rowData => {
+        return (
+          <img
+            height="315"
+            src="https://randomuser.me/api/portraits/women/28.jpg"
+          />
+        )
+      },
+    },
+  ]}
+      //   {rowData => {
+      //   return (
+      //     <img
+      //       height="315"
+      //       src="https://randomuser.me/api/portraits/women/28.jpg"
+      //     />
+      //   )
+      // }}
+    />
     );
 
 }
