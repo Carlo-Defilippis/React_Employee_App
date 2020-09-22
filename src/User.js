@@ -7,49 +7,54 @@ class MatTable extends Component {
     super(props)
     this.state = {
       columns: [
-        { title: 'Name', field: 'name' },
-        { title: 'Surname', field: 'surname', initialEditValue: 'initial edit value' },
-        { title: 'Birth Year', field: 'birthYear', type: 'numeric' }],
+        { title: 'Name', field: 'first' },
+        { title: 'Surname', field: 'last', initialEditValue: 'initial edit value' },
+        { title: 'Title', field: 'title'}],
       data: [[
-        { 
-          name: this.state.data.map(e => (
-            (e.name.first)
-            )), 
-          surname: this.state.data.map(e => (
-            (e.name.last)
-            )),
-          birthYear: this.state.data.map(e => (
-            (e.dob.age)
-            )),
+        {
+          first: "",
+          last: "",
+          title: "",
         }]]
     };
   }
 
-  
+
   componentDidMount() {
     axios.get('https://randomuser.me/api/?results=100').then(response => {
       this.setState({
         data: response.data.results
       })
     })
-    .catch(function(error) {
-      console.log(error);
-    })
+      .catch(function (error) {
+        console.log(error);
+      })
+      this.setState({
+        first: this.state.data.map(e => (
+        (e.name)
+        )),
+        last: this.state.data.map(e => (
+          (e.name)
+        )),
+        title: this.state.data.map(e => (
+          (e.name)
+        ))
+      })
   }
 
-  
 
+  
   render() {
     if (this.state.data.length > 0) {
-      console.log("JSON Parse: ", this.state.data[0].gender);
-    }
-    console.log("Test", this.state.data)
+      console.log("JSON Parse: ", this.state.data);
+      };
     
+
     return (
       <MaterialTable
         title="Employee Search (editable)"
         columns={this.state.columns}
-        data = {this.state.data}
+        data={this.state.data}
         editable={{
           onRowAdd: (newData) =>
             new Promise((resolve) => {
@@ -89,7 +94,8 @@ class MatTable extends Component {
         }}
       />
     );
-  }
+
+}
 }
 
 
